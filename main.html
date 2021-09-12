@@ -10,7 +10,7 @@
 
 </head>
 <body>
-        <div id="bargroup">
+<div id="bargroup">
 <div class="time">時：<span id="hour_value">0</span><br><input id="hour" type = "range" min = "0" max = "99" step = "1" value = "0"style="width: 200px;height:auto"><br></div>
 <div class="time">分：<span id="minute_value">0</span><br><input id="minute" type="range" min="0" max="59" step="1"  value="0" style="width: 200px;height:auto"><br>  </div>
 <div class="time">秒：<span id="second_value">30</span><br><input id="second" type="range" min="0" max="59" step="1" value="30"  style="width: 200px;height:auto"><br> </div></div>
@@ -44,7 +44,7 @@
       target2=time_display[i].getElementsByTagName("span")[0];
       bar.addEventListener("input",rangeValue(bar,target,target2));
   }
-        //1時間を3600秒、1分を60秒、にして合計の秒数を返す
+        
         function timeAll(){
             var hour_all = document.getElementById("hour").value;
             var minute_all = document.getElementById("minute").value;
@@ -52,13 +52,11 @@
             var all = Number(hour_all*3600)+Number(minute_all*60)+Number(second_all);
             return all;
         }
-        //タイム計測中であるかどうか
+        
         var ontheway = false;
-　　　　　//入力された合計の秒数
         var onthewayallsec = 0;
-        //スタートボタンを押したときの処理
+        
         function start(){
-            //visibilityプロパティを使用してスライダーを隠し、disabled属性でスタートボタン、リセットボタンも押せなくしている
             document.getElementById("bargroup").style.visibility ="hidden";
             document.getElementById("start_button").disabled="disabled";
             document.getElementById("reset_button").disabled="disabled";
@@ -90,7 +88,6 @@
                }else{
                largesecond.innerHTML=sec;
                }
-//処理間隔は0.1秒にしている、1秒だとストップする際にラグを感じる
   var count_down = setInterval(function(){
     allsec = allsec-0.1;
           dt = new Date();
@@ -115,8 +112,9 @@
                }
     if(dt.getTime() >= endDt.getTime()){
       clearInterval(count_down);
+        playaudio();
         largeminute.innerHTML=minute;
-                  largesecond.innerHTML="00";
+        largesecond.innerHTML="00";
           largeminute.innerHTML="00";
           largehour.innerHTML="00";
     }
@@ -128,16 +126,26 @@
         }
         
         function stop(){
+            stopaudio();
             ontheway = true;
             document.getElementById("start_button").disabled="";
             document.getElementById("reset_button").disabled="";
             document.getElementById("stop_button").disabled="disabled"
         }
-        //リセットボタンを押すとページがリロードされる(最初の状態に戻る)
+        
         function reset(){
             location.reload();
         }
+        //音楽を鳴らす
+        function playaudio(){
+            document.getElementById('audio').play();
+        }
+　　　　　//音楽を止める
+        function stopaudio(){
+            document.getElementById('audio').pause();
+        }
            </script>
+      <audio src="alert.mp3" loop id="audio">現環境では終了時にアラームが鳴りません</audio>
   <svg width="0" height="0" class="hidden">
     <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.47 24.94" id="arrow" class="arrow_svg">
       <title>arrow</title>
